@@ -15,8 +15,8 @@ public class Client
         System.out.println("------------------------------------");
         System.out.println("Send Data");
         System.out.println("------------------------------------");
-        System.out.println("PROCESS_ID:BUST_TIME:ARRIVAL_TIME");
-        System.out.println("PROCESS_ID:BUST_TIME:TIME_QUANTAM");
+        System.out.println("Round Robin :- PROCESS_ID:BUST_TIME:TIME_QUANTAM");
+        System.out.println("SJF         :- PROCESS_ID:BUST_TIME:ARRIVAL_TIME");
         System.out.println("------------------------------------");
 
         String receiveMessage, sendMessage;               

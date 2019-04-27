@@ -2,8 +2,7 @@ class Process
 { 
 	int pid; 
 	int bt; 
-	int art; 
-	
+	int art; 	
 	public Process(int pid, int bt, int art) 
 	{ 
 		this.pid = pid; 
@@ -11,7 +10,6 @@ class Process
 		this.art = art; 
 	} 
 } 
-
 public class SJF 
 { 
 	public void findWaitingTime(Process proc[], int n, 
@@ -20,13 +18,9 @@ public class SJF
 		int rt[] = new int[n]; 
 		for (int i = 0; i < n; i++) 
 			rt[i] = proc[i].bt; 
-	
 		int complete = 0, t = 0, minm = Integer.MAX_VALUE; 
 		int shortest = 0, finish_time; 
 		boolean check = false; 
-	
-		
-		
 		while (complete != n) { 
 			for (int j = 0; j < n; j++) 
 			{ 
@@ -37,22 +31,14 @@ public class SJF
 					check = true; 
 				} 
 			} 
-	
 			if (check == false) { 
 				t++; 
 				continue; 
 			} 
-	
-			
 			rt[shortest]--; 
-	
-			
 			minm = rt[shortest]; 
 			if (minm == 0) 
 				minm = Integer.MAX_VALUE; 
-	
-			
-			
 			if (rt[shortest] == 0) { 
 				complete++; 
 				check = false; 
@@ -64,7 +50,6 @@ public class SJF
 				if (wt[shortest] < 0) 
 					wt[shortest] = 0; 
 			} 
-			
 			t++; 
 		} 
 	}
@@ -81,20 +66,16 @@ public class SJF
 		int total_wt = 0, total_tat = 0; 
 
 		findWaitingTime(proc, n, wt); 
-		
 		findTurnAroundTime(proc, n, wt, tat); 
-	
-		System.out.println("Processes " + 
-						" Burst time " + 
-						" Waiting time " + 
-						" Turn around time"); 
+		System.out.println("+-----------+------------+--------------+------------------+");
+		System.out.println("| Processes | Burst time | Waiting time | Turn around time |");
+		System.out.println("+-----------+------------+--------------+------------------+"); 
 		
 		for (int i = 0; i < n; i++) { 
 			total_wt = total_wt + wt[i]; 
 			total_tat = total_tat + tat[i]; 
-			System.out.println(" " + proc[i].pid + "\t\t"
-							+ proc[i].bt + "\t\t " + wt[i] 
-							+ "\t\t" + tat[i]); 
+			System.out.println("| " + proc[i].pid + "\t   | " + proc[i].bt + "\t\t| " + wt[i] + "\t\t| " + tat[i] + "\t\t   |"); 
+			System.out.println("+-----------+------------+--------------+------------------+");
 		} 
 
 		System.out.println("Average waiting time = " + 
