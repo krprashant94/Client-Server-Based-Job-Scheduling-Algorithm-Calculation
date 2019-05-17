@@ -1,4 +1,4 @@
-
+import socket 
 def findWaitingTime(processes, n, wt): 
 	wt[0] = 0
 
@@ -18,20 +18,24 @@ def findavgTime(processes, n):
 
 	findTurnAroundTime(processes, n, wt, tat) 
 
-	print("\nProcesses Burst Time Waiting", 
-		"Time Turn-Around Time") 
+	print("\n\n+-----------+-----------+-----------+-------------------+")
+	print("|Processes \t|Burst  \t|Waiting \t|Turn-Around Time\t|") 
+	print("+-----------+-----------+-----------+-------------------+")
+
 	total_wt = 0
 	total_tat = 0
 	for i in range(n): 
 
 		total_wt = total_wt + wt[i] 
 		total_tat = total_tat + tat[i] 
-		print(" ", processes[i][0], "\t\t", 
-				processes[i][1], "\t\t", 
-				wt[i], "\t\t", tat[i]) 
+		print("| ", processes[i][0], "\t\t| ", 
+				processes[i][1], "\t\t| ", 
+				wt[i], "\t\t| ", tat[i], "\t\t\t\t|") 
+	print("+-----------+-----------+-----------+-------------------+")
 
 	print("\nAverage waiting time = %.5f "%(total_wt /n)) 
 	print("Average turn around time = ", total_tat / n) 
+	return "Average waiting time = "+str(total_wt /n)+"  Average turn around time = "+str(total_tat / n )
 
 def priorityScheduling(proc, n): 
 	
@@ -41,7 +45,7 @@ def priorityScheduling(proc, n):
 	print("Order in which processes gets executed") 
 	for i in proc: 
 		print(i[0], end = " ") 
-	findavgTime(proc, n) 
+	return findavgTime(proc, n) 
 	
 if __name__ =="__main__": 
 	
@@ -51,6 +55,16 @@ if __name__ =="__main__":
 	n = 3
 	print("Process Array: ")
 	print(proc)
-	print("n = ", n)
-	priorityScheduling(proc, n) 
+
+
+	s = socket.socket() 
+	port = 12345
+	s.bind(('', port)) 
+	s.listen(5) 
+	print ("Server Ready call client.py")
+	while True: 
+		c, addr = s.accept() 
+		c.send(str(priorityScheduling(proc, n)).encode()) 
+		c.close() 
+
 	

@@ -3,9 +3,9 @@
 cd Server
 
 echo 1. Round Robin
-echo 2. SJF
-echo 3. SJF Primitive
-echo 4. FCFS
+echo 2. Greedy Algorithm (SJF)
+echo 3. Min-Max Algorithm (SJF Primitive)
+echo 4. Burt Force Algorithm (FCFS)
 echo 5. LRTF Client (Python)
 echo 6. Prority Sheduling Client (Python)
 set /p choice= "Please Select one of the above options :"

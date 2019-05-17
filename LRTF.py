@@ -1,3 +1,4 @@
+import socket 
 
 p = [] 
 for i in range(4): 
@@ -24,73 +25,76 @@ def findCT(totaltime):
 			index = findlargest(i) 
 		else: 
 			index = findlargest(4) 
-		print("Process execute at time ", 
-					totaltime, end = " ") 
-		print(" is: P", index + 1, 
-						sep = "", end = " ") 
 		p[index][2] -= 1
 		totaltime += 1
 		i += 1
 		if (p[index][2] == 0): 
 				p[index][6] = totaltime 
-				print("Process P", p[index][0], 
-						sep = "", end = " ") 
-				print(" is completed at ", 
-					totaltime, end = " ") 
-		print() 
-		
 		if (totaltime == prefinaltotal): 
 			break
 
 if __name__ =="__main__": 
 	
-	for i in range(4): 
-		p[i][0] = i + 1
+	s = socket.socket() 
+	port = 12345
+	s.bind(('', port)) 
+	s.listen(5) 
+	print ("Server Ready call client.py")
+	while True: 
+		c, addr = s.accept() 
 
-		p[i][1] = i + 1
+		for i in range(4): 
+			p[i][0] = i + 1
 
-	for i in range(4): 
+			p[i][1] = i + 1
 
-		p[i][2] = 2 * (i + 1) 
-		p[i][3] = p[i][2] 
-		prefinaltotal += p[i][2] 
+		for i in range(4): 
 
-	print("PNo\tAT\tBT") 
+			p[i][2] = 2 * (i + 1) 
+			p[i][3] = p[i][2] 
+			prefinaltotal += p[i][2] 
+		print("+---------------+---------------+-----------+")
+		print("| Process No\t| Arrival Time\t| Bust Time\t|") 
+		print("+---------------+---------------+-----------+")
 
-	for i in range(4): 
-		print(p[i][0], "\t", 
-			p[i][1], "\t", p[i][2]) 
-	print() 
-	
-	p = sorted(p, key = lambda p:p[1]) 
-
-	totaltime += p[0][1] 
-
-	prefinaltotal += p[0][1] 
-	findCT(totaltime) 
-	totalWT = 0
-	totalTAT = 0
-	for i in range(4): 
+		for i in range(4): 
+			print("| ",p[i][0], "\t\t\t| ", p[i][1], "\t\t\t| ", p[i][2],"\t\t|") 
+		print("+---------------+---------------+-----------+")
 		
-		p[i][5] = p[i][6]- p[i][1] 
-		p[i][4] = p[i][5] - p[i][3] 
+		p = sorted(p, key = lambda p:p[1]) 
 
-		totalWT += p[i][4] 
+		totaltime += p[0][1] 
 
-		totalTAT += p[i][5] 
+		prefinaltotal += p[0][1] 
+		findCT(totaltime) 
+		totalWT = 0
+		totalTAT = 0
+		for i in range(4): 
+			
+			p[i][5] = p[i][6]- p[i][1] 
+			p[i][4] = p[i][5] - p[i][3] 
 
-	print("\nAfter execution of all processes ... ") 
+			totalWT += p[i][4] 
 
-	print("PNo\tAT\tBT\tCT\tTAT\tWT" ) 
+			totalTAT += p[i][5] 
+		print("\n\n+-----------------------------------------------------------------------------------------------+")
+		print("| After execution of all processes ... \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+") 
+		print("+-----------+---------------+-----------+-------------------+-------------------+---------------+")
+		print("Process No\t| Arrival Time\t| Bust Time\t| Completion Time\t| Turn-Around Time\t| Wating Time\t|" ) 
+		print("+-----------+---------------+-----------+-------------------+-------------------+---------------+")
 
-	for i in range(4): 
-		print(p[i][0], "\t", p[i][1], "\t", 
-			p[i][3], "\t", end = " ") 
-		print(p[i][6], "\t", 
-			p[i][5], "\t", p[i][4]) 
-	print() 
-	print("Total TAT = ", totalTAT) 
-	print("Average TAT = ", totalTAT / 4.0) 
-	print("Total WT = ", totalWT) 
-	print("Average WT = ", totalWT / 4.0) 
+		for i in range(4): 
+			print("| ", p[i][0], "\t\t| ", p[i][1], "\t\t\t| ", p[i][3], "\t\t| ", end = " ") 
+			print(p[i][6], "\t\t\t\t| ", p[i][5], "\t\t\t\t| ", p[i][4], "\t\t\t|") 
+		print("+-----------+---------------+-----------+-------------------+-------------------+---------------+")
+
+		print() 
+		print("Total TAT = ", totalTAT) 
+		print("Average TAT = ", totalTAT / 4.0) 
+		print("Total WT = ", totalWT) 
+		print("Average WT = ", totalWT / 4.0) 
+
+		c.send(str("Total TAT = " + str(totalTAT) + "\nAverage TAT = "+ str(totalTAT / 4.0) 
+			+ "\nTotal WT = "+ str(totalWT) + "\nAverage WT = "+ str(totalWT / 4.0)).encode()) 
+		c.close() 
 
