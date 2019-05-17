@@ -19,7 +19,7 @@ def findavgTime(processes, n):
 	findTurnAroundTime(processes, n, wt, tat) 
 
 	print("\n\n+-----------+-----------+-----------+-------------------+")
-	print("|Processes \t|Burst  \t|Waiting \t|Turn-Around Time\t|") 
+	print("|Processes  |Burst\t|Waiting    |Turn-Around Time\t|") 
 	print("+-----------+-----------+-----------+-------------------+")
 
 	total_wt = 0
@@ -28,9 +28,9 @@ def findavgTime(processes, n):
 
 		total_wt = total_wt + wt[i] 
 		total_tat = total_tat + tat[i] 
-		print("| ", processes[i][0], "\t\t| ", 
-				processes[i][1], "\t\t| ", 
-				wt[i], "\t\t| ", tat[i], "\t\t\t\t|") 
+		print("| ", processes[i][0], "\t    | ", 
+				processes[i][1], "\t| ", 
+				wt[i], "\t    | ", tat[i], "\t\t|") 
 	print("+-----------+-----------+-----------+-------------------+")
 
 	print("\nAverage waiting time = %.5f "%(total_wt /n)) 
@@ -55,6 +55,7 @@ if __name__ =="__main__":
 	n = 3
 	print("Process Array: ")
 	print(proc)
+	print()
 
 
 	s = socket.socket() 

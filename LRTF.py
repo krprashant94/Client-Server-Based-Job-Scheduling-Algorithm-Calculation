@@ -34,7 +34,20 @@ def findCT(totaltime):
 			break
 
 if __name__ =="__main__": 
-	
+	print("Process Array:")
+	for i in range(4): 
+		p[i][0] = i + 1
+
+		p[i][1] = i + 1
+
+	for i in range(4): 
+
+		p[i][2] = 2 * (i + 1) 
+		p[i][3] = p[i][2] 
+		prefinaltotal += p[i][2] 
+	print(p)
+	print()
+
 	s = socket.socket() 
 	port = 12345
 	s.bind(('', port)) 
@@ -43,22 +56,12 @@ if __name__ =="__main__":
 	while True: 
 		c, addr = s.accept() 
 
-		for i in range(4): 
-			p[i][0] = i + 1
-
-			p[i][1] = i + 1
-
-		for i in range(4): 
-
-			p[i][2] = 2 * (i + 1) 
-			p[i][3] = p[i][2] 
-			prefinaltotal += p[i][2] 
 		print("+---------------+---------------+-----------+")
-		print("| Process No\t| Arrival Time\t| Bust Time\t|") 
+		print("| Process No\t| Arrival Time\t| Bust Time |") 
 		print("+---------------+---------------+-----------+")
 
 		for i in range(4): 
-			print("| ",p[i][0], "\t\t\t| ", p[i][1], "\t\t\t| ", p[i][2],"\t\t|") 
+			print("| ",p[i][0], "\t\t| ", p[i][1], "\t\t| ", p[i][2],"\t    |") 
 		print("+---------------+---------------+-----------+")
 		
 		p = sorted(p, key = lambda p:p[1]) 
@@ -77,16 +80,17 @@ if __name__ =="__main__":
 			totalWT += p[i][4] 
 
 			totalTAT += p[i][5] 
-		print("\n\n+-----------------------------------------------------------------------------------------------+")
-		print("| After execution of all processes ... \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+") 
-		print("+-----------+---------------+-----------+-------------------+-------------------+---------------+")
-		print("Process No\t| Arrival Time\t| Bust Time\t| Completion Time\t| Turn-Around Time\t| Wating Time\t|" ) 
-		print("+-----------+---------------+-----------+-------------------+-------------------+---------------+")
+
+		print("\n\n+-----------------------------------------------------------------------+")
+		print("| After execution of all processes ... \t\t\t\t\t|") 
+		print("+-------+-----------+-----------+---------------+-----------+-----------+")
+		print("Proc No\t| Arr. Time | Bust Time\t| Comp. Time\t| TA Time   | Wt. Time\t|" ) 
+		print("+-------+-----------+-----------+---------------+-----------+-----------+")
 
 		for i in range(4): 
-			print("| ", p[i][0], "\t\t| ", p[i][1], "\t\t\t| ", p[i][3], "\t\t| ", end = " ") 
-			print(p[i][6], "\t\t\t\t| ", p[i][5], "\t\t\t\t| ", p[i][4], "\t\t\t|") 
-		print("+-----------+---------------+-----------+-------------------+-------------------+---------------+")
+			print("| ", p[i][0], "\t| ", p[i][1], "\t    | ", p[i][3], "\t| ", end = " ") 
+			print(p[i][6], "\t\t| ", p[i][5], "\t    | ", p[i][4], "\t|") 
+		print("+-------+-----------+-----------+---------------+-----------+-----------+")
 
 		print() 
 		print("Total TAT = ", totalTAT) 
