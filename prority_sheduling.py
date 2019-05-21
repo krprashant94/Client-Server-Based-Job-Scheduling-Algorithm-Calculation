@@ -19,7 +19,7 @@ def findavgTime(processes, n):
 	findTurnAroundTime(processes, n, wt, tat) 
 
 	print("\n\n+-----------+-----------+-----------+-------------------+")
-	print("|Processes  |Burst\t|Waiting    |Turn-Around Time\t|") 
+	print("|Processes  |Burst\t|Waiting	|Turn-Around Time\t|") 
 	print("+-----------+-----------+-----------+-------------------+")
 
 	total_wt = 0
@@ -28,9 +28,9 @@ def findavgTime(processes, n):
 
 		total_wt = total_wt + wt[i] 
 		total_tat = total_tat + tat[i] 
-		print("| ", processes[i][0], "\t    | ", 
+		print("| ", processes[i][0], "\t	| ", 
 				processes[i][1], "\t| ", 
-				wt[i], "\t    | ", tat[i], "\t\t|") 
+				wt[i], "\t	| ", tat[i], "\t\t|") 
 	print("+-----------+-----------+-----------+-------------------+")
 
 	print("\nAverage waiting time = %.5f "%(total_wt /n)) 
@@ -48,24 +48,33 @@ def priorityScheduling(proc, n):
 	return findavgTime(proc, n) 
 	
 if __name__ =="__main__": 
-	
-	proc = [[1, 10, 1], 
-			[2, 5, 0], 
-			[3, 8, 1]] 
-	n = 3
+	max_process = 0
+	proc = [] 
+	n = 0
 	print("Process Array: ")
 	print(proc)
 	print()
 
 
-	s = socket.socket() 
-	port = 12345
-	s.bind(('', port)) 
-	s.listen(5) 
+	serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	serv.bind(('127.0.0.1', 8082))
+	serv.listen(5) 
 	print ("Server Ready call client.py")
-	while True: 
-		c, addr = s.accept() 
-		c.send(str(priorityScheduling(proc, n)).encode()) 
-		c.close() 
+
+	while True:
+		conn, addr = serv.accept()
+		from_client = ''
+		while True:
+			data = conn.recv(4096).decode()
+			if not data: break
+			from_client += data
+			client_data = from_client.split(":")
+			print(client_data)
+			proc.append([int(client_data[0]), int(client_data[1]), int(client_data[2])])
+			max_process += 1
+			n += 1
+			conn.send(str(priorityScheduling(proc, n)).encode()) 
+		conn.close()
+		print ('client disconnected')
 
 	

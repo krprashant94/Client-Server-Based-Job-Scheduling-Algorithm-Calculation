@@ -1,10 +1,9 @@
-import socket 
+import socket
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-s = socket.socket() 
-
-port = 12345
-
-s.connect(('127.0.0.1', port)) 
-print (str(s.recv(1024).decode()))
-s.close() 
-input()
+client.connect(('127.0.0.1', 8082))
+a = input()
+client.send(a.encode())
+from_server = client.recv(4096)
+client.close()
+print (from_server)
